@@ -6,26 +6,31 @@ using System.Threading.Tasks;
 
 namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
 {
+    // CLASSE QUE CONTERA CADA VALOR DE ITEM DA LISTA
+    // EM CADA ITEM CONTERA O REGISTRO DA PROXIMA LISTA E DA ANTERIOR
+    // DENTREO DESTE PROXIMO E ANTERIOR TERA NOVAMENTE UM VALOR E OUTRAS LISTAS E ASSIM VAI
     class LISTA
     {
-        public int num;
-        public LISTA prox;
-        public LISTA ant;
+        public int numero;
+        public LISTA proximo;
+        public LISTA anterior;
     }
 
     class Program
     {
         static void Main(string[] args)
         {
-            LISTA inicio = null;
-            LISTA fim = null;
-            LISTA aux;
+            // CABECA NESTE CASO RECEBE O MENOR ITEM INSERIDO NA LISTA (PRIMEIRO)
+            LISTA cabeca = null;
+            // RECEBE O ULTIMO ITEM QUE CORRESPONDE AO MAIOR DA LISTA
+            LISTA calda = null;
+            LISTA auxiliar;
 
-            int op = 0, numero, achou;
+            int opcao = 0, numero, achou;
             do
             {
                 Console.Clear();
-                Console.WriteLine("MENU DE OPÇÕES");
+                Console.WriteLine("MENU DE OPÇÕES:");
                 Console.WriteLine("1 - INSERIR NA LISTA");
                 Console.WriteLine("2 - CONSULTAR A LISTA DO INICIO AO FIM");
                 Console.WriteLine("3 - CONSULTAR A LISTA DO FIM AO INICIO");
@@ -34,163 +39,186 @@ namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
                 Console.WriteLine("6 - SAIR");
 
                 Console.WriteLine("DIGITE A OPÇÃO DESEJADA:");
-                
-                op = Convert.ToInt32(Console.ReadLine());
 
-                if (op < 1 || op > 6)
+                opcao = Convert.ToInt32(Console.ReadLine());
+
+                switch (opcao)
                 {
-                    Console.WriteLine("OPÇÃO INVALIDA");
-                }
-
-                if (op == 1)
-                {
-                    Console.WriteLine("DIGITE O NUMERO A SER INSERIDO NA LISTA");
-                    LISTA novo = new LISTA();
-                    novo.num = Convert.ToInt32(Console.ReadLine());
-
-                    if (inicio == null)
-                    {
-                        inicio = novo;
-                        fim = novo;
-                        novo.prox = null;
-                        novo.ant = null;
-                    }else
-                    {
-                        aux = inicio;
-                        while (aux != null && novo.num > aux.num)
+                    case 1:
+                        Console.WriteLine("DIGITE O NUMERO A SER INSERIDO NA LISTA:");
+                        LISTA novoItem = new LISTA();
+                        novoItem.numero = Convert.ToInt32(Console.ReadLine());
+                        
+                        if (cabeca == null)
                         {
-                            aux = aux.prox;
-                            if (aux == inicio)
+                            // PRIMEIRO ITEM DA LISTA
+                            cabeca = novoItem;
+                            calda = novoItem;
+                            novoItem.proximo = null;
+                            novoItem.anterior = null;
+                        }
+                        else
+                        {
+                            // PEGO O VALOR DA LISTA CADASTRADA ANTERIORMENTE
+                            auxiliar = cabeca;
+                            while (auxiliar != null && novoItem.numero > auxiliar.numero)
                             {
-                                novo.prox = inicio;
-                                novo.ant = null;
-                                inicio.ant = novo;
-                                inicio = novo;
-                            }else if (aux == null)
+                                // VERIFICAR O NUMERO MENOR QUE O DIGITADO
+                                // O NUMERO DIGITADO SEMPRE FICA LOGO APOS O MENOR QUE ELE
+                                // CASO O NUMERO DIGITADO SEJA MAIOR QUE TODOS ITENS ADICIONADO O PROXIMO SERA NULO
+                                auxiliar = auxiliar.proximo;
+                            }
+                            if (auxiliar == cabeca)
                             {
-                                fim.prox = novo;
-                                novo.ant = fim;
-                                fim = novo;
-                                fim.prox = null;
-                            }else
+                                // O ITEM ANTERIOR E IGUAL AO INFORMADO
+                                novoItem.proximo = cabeca;
+                                novoItem.anterior = null;
+                                cabeca.anterior = novoItem;
+                                cabeca = novoItem;
+                            }
+                            else if (auxiliar == null)
                             {
-                                novo.prox = aux;
-                                aux.ant.prox = novo;
-                                novo.ant = aux.ant;
-                                aux.ant = novo;
+                                // O NUMERO INFORMADO É O MAIOR NUMERO DA LISTA ENTÃO É INSERIDO NO FINAL
+                                calda.proximo = novoItem;
+                                novoItem.anterior = calda;
+                                calda = novoItem;
+                                calda.proximo = null;
+                            }
+                            else
+                            {
+                                // O NUMERO FOI INSERIDO NO MEIO POIS NAO É O MAIOR QUE O ULTIMO E MENOR QUE O PRIMEIRO
+                                // OU NO INICIO CASO SEJA MENOR QUE O PRIMEIRO ITEM DA LISTA
+                                novoItem.proximo = auxiliar;
+                                auxiliar.anterior.proximo = novoItem;
+                                novoItem.anterior = auxiliar.anterior;
+                                auxiliar.anterior = novoItem;
                             }
                         }
-                        Console.WriteLine("NUMERO INSERIDO NA LISTA");
-                    }
-                }
-
-                if (op == 2)
-                {
-                    if (inicio == null)
-                    {
-                        Console.WriteLine("LISTA VAZIA");
-                    }else
-                    {
-                        Console.WriteLine("consultado a lista do inicio ao fim");
-                        aux = inicio;
-                        while (aux != null)
-                        {   
-                            Console.WriteLine(aux.num + "----");
-                            aux = aux.prox;
-                        }
-                    }
-                    Console.ReadLine();
-                }
-
-                if (op == 3)
-                {
-                    if (inicio == null)
-                    {
-                        Console.WriteLine("LISTA VAZIA");
-                    }
-                    else
-                    {
-                        Console.WriteLine("consultado a lista do fim ao inicio");
-                        aux = fim;
-                        while (aux != null)
+                        Console.WriteLine("NUMERO INSERIDO NA LISTA!");
+                        break;
+                    case 2:
+                        if (cabeca != null)
                         {
-                            Console.WriteLine(aux.num + "   ");
-                            aux = aux.ant;
-                        }
-                    }
-                    Console.ReadLine();
-                }
-
-                if (op == 4)
-                {
-                    if (inicio == null)
-                    {
-                        Console.WriteLine("LISTA VAZIA");
-                    }else
-                    {
-                        Console.WriteLine("DIGITE O ELEMENTO A SER REMOVIDO");
-                        numero = Convert.ToInt32(Console.ReadLine());
-
-                        aux = inicio;
-                        achou = 0;
-                        while (aux != null)
-                        {
-                            if (aux.num == numero)
+                            Console.WriteLine("CONSULTADO A LISTA DA CABECA A CALDA...");
+                            //PEGA O PRIMEIRO ITEM DA LISTA
+                            auxiliar = cabeca;
+                            while (auxiliar != null)
                             {
-                                achou = achou + 1;
-                                if (aux == inicio)
-                                {
-                                    inicio = aux.prox;
-                                    if (inicio != null)
-                                    {
-                                        inicio.ant = null;
-                                    }
-                                    aux = inicio;
-                                }
-                                else if (aux == fim)
-                                {
-                                    fim = fim.ant;
-                                    fim.prox = null;
-                                    aux = null;
-                                }
-                                else{
-                                    aux.ant.prox = aux.prox;
-                                    aux.prox.ant = aux.ant;
-                                    aux = aux.prox;
-                                }
-                            }else
-                            {
-                                aux = aux.prox;
+                                Console.Write(auxiliar.numero + "   ");
+                                // PEGA O PROXIMO ITEM DA LISTA O MAIOR 
+                                auxiliar = auxiliar.proximo;
                             }
-                        }
-                        if (achou == 0)
-                        {
-                            Console.WriteLine("NUMERO NAO ENCONTRADO");
-                        }else if (achou == 1)
-                        {
-                            Console.WriteLine("NUMERO REMOVIDO UMA VEZ");
                         }else
                         {
-                            Console.WriteLine("NUMERO REMOVIDO "+achou+" VEZES");
+                            Console.WriteLine("LISTA VAZIA!");
                         }
-                    }
-                    Console.ReadLine();
-                }
+                        break;
+                    case 3:
+                        if (cabeca != null)
+                        {
+                            Console.WriteLine("CONSULTADO A LISTA DA CALDA A CABECA...");
+                            // PEGA O PRIMEIRO ITEM DA LISTA
+                            auxiliar = calda;
+                            while (auxiliar != null)
+                            {
+                                Console.WriteLine(auxiliar.numero + "   ");
+                                // PEGA O ITEM MENOR QUE O ANTERIOR
+                                auxiliar = auxiliar.anterior;
+                            }
+                        }else
+                        {
+                            Console.WriteLine("LISTA VAZIA!");
+                        }
+                        break;
+                    case 4:
+                        if (cabeca != null)
+                        {
+                            Console.WriteLine("DIGITE O ELEMENTO A SER REMOVIDO:");
 
-                if (op == 5)
-                {
-                    if (inicio == null)
-                    {
-                        Console.WriteLine("LISTA VAZIA");
-                    }else
-                    {
-                        inicio = null;
-                        Console.WriteLine("LISTA ESVAZIADA");
-                    }
-                    Console.ReadLine();
+                            numero = Convert.ToInt32(Console.ReadLine());
+
+                            //PEGA O PRIMEIRO ITEM DA LISTA
+                            auxiliar = cabeca;
+                            achou = 0;
+                            while (auxiliar != null)
+                            {
+                                if (auxiliar.numero == numero)
+                                {
+                                    // NUMERO DIGITADO FOI ENCONTRADO
+                                    achou = achou + 1;
+                                    if (auxiliar == cabeca)
+                                    {
+                                        // O NUMERO REMOVIDO É O PRIMEIRO DA LISTA
+                                        // ALIMENTAR O PRIMEIRO DA LISTA COM O PROXIMO
+                                        cabeca = auxiliar.proximo;
+                                        if (cabeca != null)
+                                        {
+                                            // A LISTA TEM MAIS DE UM ITEM
+                                            cabeca.anterior = null;
+                                        }
+                                        // SE A LISTA POSSUI MAIS DE UM NUMERO 
+                                        // ENTAO O PROXIMO NUMERO DEPOIS DO PRIMEIRO ASSUME O LUGAR DE CABECA
+                                        // SE NAO TIVER MAIS DE UM A LISTA SERA LIMPADA
+                                        auxiliar = cabeca;
+                                    }
+                                    else if (auxiliar == calda)
+                                    {
+                                        // NUMERO DIGITADO É O ULTIMO NUMERO
+                                        calda = calda.anterior;
+                                        calda.proximo = null;
+                                        auxiliar = null;
+                                    }
+                                    else
+                                    {
+                                        // ITEM DO MEIO
+                                        // QUANDO DIGO ISSO auxiliar.anterior.proximo ESTOU FALANDO DO PROPRIO ITEM QUE SERA REMOVIDO
+                                        auxiliar.anterior.proximo = auxiliar.proximo;
+                                        auxiliar.proximo.anterior = auxiliar.anterior;
+                                        auxiliar = auxiliar.proximo;
+                                    }
+                                }
+                                else
+                                {
+                                    // VOU PARA O PROXIMO NUMERO POIS ESTE NAO E O MESMO QUE EU DIGITEI
+                                    auxiliar = auxiliar.proximo;
+                                }
+                            }
+
+                            // RESULTADO DO ITEM DIGITADO
+                            if (achou == 0)
+                            {
+                                Console.WriteLine("NUMERO NAO ENCONTRADO!");
+                            }
+                            else if (achou == 1)
+                            {
+                                Console.WriteLine("NUMERO REMOVIDO UMA VEZ!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("NUMERO REMOVIDO " + achou + " VEZES!");
+                            }
+                        }
+                        break;
+                    case 5:
+                        if (cabeca != null)
+                        {
+                            // COM O CABECALHO NULO EU PERCO A REFERENCIA DE TODOS OS ITENS DA MINHA LISTA
+                            cabeca = null;
+                            Console.WriteLine("LISTA ESVAZIADA!");
+                        }else
+                        {
+                            Console.WriteLine("LISTA VAZIA!");
+                        }
+                        break;
+                    case 6:
+                        Console.WriteLine("OBRIGADO POR USAR O SISTEMA!");
+                        break;
+                    default:
+                        Console.WriteLine("OPÇÃO INVALIDA!");
+                        break;
                 }
-                
-            } while (op != 6);
+                Console.ReadLine();
+            } while (opcao != 6);
         }
     }
 }
