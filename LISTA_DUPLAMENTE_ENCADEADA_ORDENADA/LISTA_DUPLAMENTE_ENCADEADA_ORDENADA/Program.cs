@@ -63,7 +63,7 @@ namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
                             auxiliar = cabeca;
                             while (auxiliar != null && novoItem.numero > auxiliar.numero)
                             {
-                                // VERIFICAR O NUMERO MENOR QUE O DIGITADO
+                                // VERIFICAR O NUMERO MAIOR QUE O DIGITADO
                                 // O NUMERO DIGITADO SEMPRE FICA LOGO APOS O MENOR QUE ELE
                                 // CASO O NUMERO DIGITADO SEJA MAIOR QUE TODOS ITENS ADICIONADO O PROXIMO SERA NULO
                                 auxiliar = auxiliar.proximo;
