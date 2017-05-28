@@ -70,6 +70,7 @@ namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
                             }
                             if (auxiliar == cabeca)
                             {
+                                // NOVO ITEM É MENOR QUE O PRIMEIRO 
                                 // O ITEM ANTERIOR E IGUAL AO INFORMADO NA CABECA 
                                 novoItem.proximo = cabeca;
                                 novoItem.anterior = null;
@@ -87,7 +88,6 @@ namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
                             else
                             {
                                 // O NUMERO FOI INSERIDO NO MEIO POIS NAO É O MAIOR QUE O ULTIMO E MENOR QUE O PRIMEIRO
-                                // OU NO INICIO CASO SEJA MENOR QUE O PRIMEIRO ITEM DA LISTA
                                 // O AUXILIAR POSSUI O VALOR DO NUMERO MAIOR QUE O DIGITADO
                                 // NOVO ITEM RECEBE O PROXIMO QUE ERA DO AUXILIAR OU SEJA O MAIOR
                                 novoItem.proximo = auxiliar;
