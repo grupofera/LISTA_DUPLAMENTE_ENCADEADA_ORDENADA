@@ -70,7 +70,7 @@ namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
                             }
                             if (auxiliar == cabeca)
                             {
-                                // O ITEM ANTERIOR E IGUAL AO INFORMADO
+                                // O ITEM ANTERIOR E IGUAL AO INFORMADO NA CABECA 
                                 novoItem.proximo = cabeca;
                                 novoItem.anterior = null;
                                 cabeca.anterior = novoItem;
@@ -88,9 +88,14 @@ namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
                             {
                                 // O NUMERO FOI INSERIDO NO MEIO POIS NAO É O MAIOR QUE O ULTIMO E MENOR QUE O PRIMEIRO
                                 // OU NO INICIO CASO SEJA MENOR QUE O PRIMEIRO ITEM DA LISTA
+                                // O AUXILIAR POSSUI O VALOR DO NUMERO MAIOR QUE O DIGITADO
+                                // NOVO ITEM RECEBE O PROXIMO QUE ERA DO AUXILIAR OU SEJA O MAIOR
                                 novoItem.proximo = auxiliar;
+                                // ISSO INDICA QUE EU QUERO PEGAR O PROPRIO DO NUMERO MENOR QUE O DIGITADO
                                 auxiliar.anterior.proximo = novoItem;
+                                // PEGO O ITEM QUE VEM ANTES DO MENOR ITEM QUE O DIGITADO
                                 novoItem.anterior = auxiliar.anterior;
+
                                 auxiliar.anterior = novoItem;
                             }
                         }
@@ -121,7 +126,7 @@ namespace LISTA_DUPLAMENTE_ENCADEADA_ORDENADA
                             auxiliar = calda;
                             while (auxiliar != null)
                             {
-                                Console.WriteLine(auxiliar.numero + "   ");
+                                Console.Write(auxiliar.numero + "   ");
                                 // PEGA O ITEM MENOR QUE O ANTERIOR
                                 auxiliar = auxiliar.anterior;
                             }
